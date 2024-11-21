@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-// import com.java_e_wallet.e_wallet_wallet_service.adaptor.Kafka;
-// import com.java_e_wallet.e_wallet_wallet_service.config.Config;
+import com.java_e_wallet.e_wallet_wallet_service.adaptor.Kafka;
+import com.java_e_wallet.e_wallet_wallet_service.config.Config;
 import com.java_e_wallet.e_wallet_wallet_service.exception.AppException;
 import com.java_e_wallet.e_wallet_wallet_service.model.Balance;
 import com.java_e_wallet.e_wallet_wallet_service.model.TransactionResult;
@@ -116,7 +116,7 @@ public class WalletService {
         TransactionSummary summary = new TransactionSummary(transactionId, senderWallet.getUserId(),
                 recipientWallet.getUserId(), requestId, asset, amount);
 
-        // Kafka.publish(Config.getKafkaTransactionTopicName(), requestId, summary);
+        Kafka.publish(Config.getKafkaTransactionTopicName(), requestId, summary);
 
         return new TransactionResult(
                 new Balance(senderBalance.getBalanceId(), senderBalance.getWalletId(), senderBalance.getAsset(), senderBalance.getAmount() - amount,
